@@ -1,0 +1,36 @@
+.item {
+    height: 40px;
+    border-radius: 5px;
+    background: var(--item-color);
+    align-items: center;
+    display: flex;
+    padding: 0px 10px;
+    margin: 8px 0px;
+    justify-content: space-between;
+    font-weight: 700;
+}
+
+.todo {
+    border: 2px solid var(--todo-color);
+}
+
+.done {
+    border: 2px solid var(--done-color);
+}
+
+.inprogress {
+    border: 2px solid var(--inprogress-color);
+}
+
+.title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: calc(100% - 70px);
+    white-space: nowrap;
+}
+
+.actions img {
+    width: 16px;
+    margin: 0 8px;
+    cursor: pointer;
+}

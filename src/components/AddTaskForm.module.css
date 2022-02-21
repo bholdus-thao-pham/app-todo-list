@@ -1,0 +1,39 @@
+.form-controls {
+    margin: 10px auto;
+    width: 70%;
+    height: 240px;
+    border-radius: 10px;
+    padding: 20px 40px;
+    background: var(--main-color);
+    box-sizing: border-box;
+}
+.title {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    margin-top: 20px;
+    align-items: center;
+}
+.title label {
+    width: 20%;
+}
+
+.title input {
+    width: calc(80% - 5px);
+    height: 36px;
+    outline: none;
+    border: none;
+    padding: 0 16px;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.invalid input{
+    border: 1px solid red;
+}
+
+.action {
+    justify-content: end;
+    display: flex;
+    margin-top: 20px;
+}
