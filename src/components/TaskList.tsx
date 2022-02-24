@@ -1,11 +1,12 @@
-import React from "react"
-import Todo from "../models/todo"
+import { shallowEqual, useSelector } from "react-redux";
+import { TaskStateObj } from "../store";
 import Task from "./Task";
 import classes from './TaskList.module.css'
 
-const TodoList: React.FC<{items: Todo[]}> = (props) => {
+const TodoList = () => {
+    const taskIds = useSelector<TaskStateObj, string[]>(state => state.taskList.map(item => item.id), shallowEqual);
     return <ul className={classes.ul}>
-        {props.items.map(item => <Task key={item.id} item ={item}/>)}
+        {taskIds.map(item => <Task key={item} id={item}/>)}
     </ul>
 }
 

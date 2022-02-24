@@ -20,19 +20,19 @@ const taskReducer = (state = initialState, action : AnyAction): TaskStateObj => 
         case 'add':
             return {
                 ...state,
-                taskList : state.taskList.concat(new Todo(action.title, action.status))
+                taskList : state.taskList.concat(action.payload)
             };
         case 'remove':
             return {
                 ...state,
-                taskList: state.taskList.filter(item => item.id !== action.id)
+                taskList: state.taskList.filter(item => item.id !== action.payload)
             }
         case 'update':
             return {
                 ...state,
                 taskList: state.taskList.map(item => {
-                    if(item.id === action.data.id){
-                        return action.data
+                    if(item.id === action.payload.id){
+                        return action.payload
                     }
                     return item;
                 })
@@ -41,11 +41,11 @@ const taskReducer = (state = initialState, action : AnyAction): TaskStateObj => 
             return {
                 ...state,
                 isOpenDetailModal: !state.isOpenDetailModal,
-                selectedTask: action.selectedTask
+                selectedTask: action.payload
             }
 
         default:
-            return {...state}
+            return state
         }
 
 }

@@ -7,10 +7,13 @@ import SelectOption from "./UI/SelectOption";
 const AddTaskForm: React.FC<{addTask: (title : string, status: string)=> void}> = (props) => {
     const titleRef = useRef<HTMLInputElement>(null);
     const [title, setTitle] = useState<string>('');
-    const [isValidForm, setIsValidForm] = useState(true);
+    const [isValidForm, setIsValidForm] = useState(false);
+    const [titleInputTouched, setTitleInputTouched] = useState(false);
+    const [status, setStatus] = useState('todo');
 
     const submitForm = (event : React.FormEvent) => {
         event.preventDefault();
+        setTitleInputTouched(true)
         if(title.trim() === ''){
             setIsValidForm(false);
             return;
@@ -18,9 +21,10 @@ const AddTaskForm: React.FC<{addTask: (title : string, status: string)=> void}> 
         setIsValidForm(true)
         props.addTask(title, status);
         setTitle("");
+        setStatus('todo');
 
     }
-    const [status, setStatus] = useState('todo');
+    
     const changeStatus = (status: string) => {
         setStatus(status);
     }
@@ -28,16 +32,23 @@ const AddTaskForm: React.FC<{addTask: (title : string, status: string)=> void}> 
     const changeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
         const enteredTitle = event.target.value;
         setTitle(enteredTitle);
-        title.trim() === '' ? setIsValidForm(false) : setIsValidForm(true);
+        enteredTitle.trim() === '' ? setIsValidForm(false) : setIsValidForm(true);
         
+    }
+
+    const titleBlur = () => {
+        setTitleInputTouched(true);
+        if(title.trim() === ''){
+            setIsValidForm(false);
+        }
     }
 
 
     return <form onSubmit={submitForm} className={classes['form-controls']}>
-        <div className={`${classes.title} ${!isValidForm ? classes.invalid:''}`}>
+        <div className={`${classes.title} ${!isValidForm && titleInputTouched ? classes.invalid:''}`}>
             <label htmlFor="title">Title</label>
             <input type="text" id="title" value={title} placeholder="Enter your task title"
-                onChange={changeTitle}/>
+                onChange={changeTitle} onBlur={titleBlur}/>
         </div>
         <div className={classes.title}>
             <label >Status</label>

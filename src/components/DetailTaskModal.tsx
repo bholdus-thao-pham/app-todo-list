@@ -24,7 +24,7 @@ const DetailTaskModal: React.FC<{item: Todo}> = (props) => {
         const item = {...props.item};
         item.status = status;
         item.title = title;
-        dispatch({type: 'update', data : item});
+        dispatch({type: 'update', payload: item});
         closeModal();
     }
 
@@ -38,7 +38,7 @@ const DetailTaskModal: React.FC<{item: Todo}> = (props) => {
     }
 
     const closeModal = () => {
-        dispatch({type:'toggle', selectedTask: {} as Todo})
+        dispatch({type:'toggle', payload: {} as Todo})
 
     }
     return <div className={classes.modal}>
