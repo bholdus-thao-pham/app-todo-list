@@ -1,0 +1,28 @@
+.table {
+  width: 70%;
+  margin: 10px auto;
+  border: none;
+  background-color: var(--main-color);
+  border-collapse: collapse;
+  border-radius: 10px;
+}
+
+td,
+th {
+  text-align: left;
+  padding: 16px;
+}
+
+.header {
+  font-weight: bold;
+  background-color: var(--item-color);
+
+  border-radius: 10px;
+}
+table tr:first-child td:first-child {
+  border-top-left-radius: 10px;
+}
+
+table tr:first-child td:last-child {
+  border-top-right-radius: 10px;
+}

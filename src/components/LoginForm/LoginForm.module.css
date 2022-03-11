@@ -1,0 +1,39 @@
+.form {
+  margin: 10px auto;
+  width: 480px;
+  height: 240px;
+  border-radius: 10px;
+  padding: 20px 40px;
+  background: var(--main-color);
+  box-sizing: border-box;
+}
+
+.title {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  margin-top: 20px;
+  align-items: center;
+}
+.title label {
+  width: 20%;
+  margin-right: 8px;
+}
+
+.title input {
+  width: calc(80% - 5px);
+  height: 36px;
+  outline: none;
+  border: none;
+  padding: 0 16px;
+  border-radius: 5px;
+  font-size: 16px;
+}
+.action {
+  justify-content: end;
+  display: flex;
+  margin-top: 20px;
+}
+.invalid input {
+  border: 1px solid red;
+}

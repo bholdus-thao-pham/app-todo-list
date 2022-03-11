@@ -1,65 +1,36 @@
-import { AnyAction, createStore } from "redux";
-import Todo from "../models/todo";
-import storage from 'redux-persist/lib/storage';
-import { persistStore, persistReducer } from 'redux-persist';
+import {
+  persistStore,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from "redux-persist";
+import { configureStore } from "@reduxjs/toolkit";
+import rootReducer from "./rootReducer";
+import createSagaMiddleware from "redux-saga";
+import rootSaga from "./rootSaga";
+import { routerMiddleware } from "connected-react-router";
+import { history } from "../utils";
 
-export type TaskStateObj = {
-    taskList: Todo[];
-    isOpenDetailModal: boolean;
-    selectedTask: Todo
-}
+const sagaMiddleware = createSagaMiddleware();
 
-const initialState: TaskStateObj = {
-    taskList: [],
-    isOpenDetailModal: false,
-    selectedTask: {} as Todo
-}
+const store = configureStore({
+  reducer: rootReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }).concat(sagaMiddleware, routerMiddleware(history)),
+});
 
-const taskReducer = (state = initialState, action : AnyAction): TaskStateObj => {
-    switch(action.type){
-        case 'add':
-            return {
-                ...state,
-                taskList : state.taskList.concat(action.payload)
-            };
-        case 'remove':
-            return {
-                ...state,
-                taskList: state.taskList.filter(item => item.id !== action.payload)
-            }
-        case 'update':
-            return {
-                ...state,
-                taskList: state.taskList.map(item => {
-                    if(item.id === action.payload.id){
-                        return action.payload
-                    }
-                    return item;
-                })
-            }
-        case 'toggle':
-            return {
-                ...state,
-                isOpenDetailModal: !state.isOpenDetailModal,
-                selectedTask: action.payload
-            }
+sagaMiddleware.run(rootSaga);
 
-        default:
-            return state
-        }
+export type RootState = ReturnType<typeof store.getState>;
 
-}
-
-const persistConfig = {
-    key: 'root',
-    storage,
-    whitelist: ['taskList']
-}
-
-const persistedReducer = persistReducer(persistConfig, taskReducer)
-
-export type ReducerType = ReturnType<typeof taskReducer>
-const store = createStore(persistedReducer);
+export type AppDispatch = typeof store.dispatch;
 
 export const persiststore = persistStore(store);
 

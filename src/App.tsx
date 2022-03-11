@@ -1,37 +1,63 @@
-import React, {Dispatch, useContext, useEffect, useState} from 'react';
-import AddTaskForm from './components/AddTaskForm';
-import TaskList from './components/TaskList';
-import ToggleTheme from './components/ToggleTheme';
-import Todo from './models/todo';
-import {TaskContext} from './store/task-context';
-import classes from './App.module.css'
-import { useDispatch, useSelector } from 'react-redux';
-import { AnyAction } from 'redux';
-import { ReducerType } from './store';
-import DetailTaskModal from './components/DetailTaskModal';
+import React, { useContext } from "react";
+import ToggleTheme from "./components/ToggleTheme/ToggleTheme";
+import { TaskContext } from "./task-context";
+import classes from "./App.module.css";
+import { Redirect, Route, Switch } from "react-router-dom";
+import LoginPage from "./pages/LoginPage/LoginPage";
+import ListTaskPage from "./pages/ListTaskPage/ListTaskPage";
+import Header from "./components/Header/Header";
+import TaskDetail from "./pages/TaskDetail/TaskDetail";
+import UsersPage from "./pages/UsersPage/UsersPage";
+import { useSelector } from "react-redux";
+import { RootState } from "./store";
+import { selectLoggin } from "./store/authSlice";
 
 function App() {
-    const taskCtx = useContext(TaskContext);
-    const dispatch = useDispatch<Dispatch<AnyAction>>();
-    const isOpenModal = useSelector<ReducerType, boolean>(state => state.isOpenDetailModal);
-    const selectedTask = useSelector<ReducerType, Todo>(state => state.selectedTask)
-    useEffect(()=>{
-        document.documentElement.setAttribute('data-theme', !taskCtx.isLightTheme ? "dark" : 'light')
-    },[])
-    const addTask = (title : string, status: string) => {
-        const newTask = new Todo(title, status);
-        dispatch({type: 'add', payload: newTask});
-    }
+  const isAuthenticated = useSelector<RootState, boolean>(selectLoggin);
+  const taskCtx = useContext(TaskContext);
+  document.documentElement.setAttribute(
+    "data-theme",
+    !taskCtx.isLightTheme ? "dark" : "light"
+  );
 
-    return <React.Fragment>
-            {isOpenModal && <DetailTaskModal item={selectedTask}/>}
-            <div className={classes.app}>
-            <ToggleTheme/>
-            <AddTaskForm addTask={addTask}/>
-            <TaskList/>
-            </div>
-        </React.Fragment>
+  return (
+    <React.Fragment>
+      <Header />
+      <div className={classes.app}>
+        <ToggleTheme />
+      </div>
+      <main>
+        <Switch>
+          <Route path="/" exact>
+            {isAuthenticated && <Redirect to="/tasks"></Redirect>}
+            {!isAuthenticated && <Redirect to="/login"></Redirect>}
+          </Route>
+          {!isAuthenticated && (
+            <Route path="/login">
+              <LoginPage />
+            </Route>
+          )}
+          <Route path="/tasks" exact>
+            {isAuthenticated && <ListTaskPage />}
+            {!isAuthenticated && <Redirect to="/login"></Redirect>}
+          </Route>
 
+          <Route path="/tasks/:taskId">
+            {isAuthenticated && <TaskDetail />}
+            {!isAuthenticated && <Redirect to="/login"></Redirect>}
+          </Route>
+          <Route path="/users">
+            {isAuthenticated && <UsersPage />}
+            {!isAuthenticated && <Redirect to="/login"></Redirect>}
+          </Route>
+          <Route path="*">
+            {!isAuthenticated && <Redirect to="/login"></Redirect>}
+            {isAuthenticated && <h2>Page not found!</h2>}
+          </Route>
+        </Switch>
+      </main>
+    </React.Fragment>
+  );
 }
 
 export default App;

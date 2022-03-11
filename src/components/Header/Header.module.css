@@ -1,0 +1,42 @@
+.header {
+  width: 100%;
+  height: 40px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.header ul {
+  list-style: none;
+  display: flex;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  align-items: center;
+  justify-content: center;
+}
+
+.header li {
+  margin: 0 16px;
+}
+
+.header li button {
+  background-color: var(--background-color);
+  border: none;
+  font-size: 20px;
+  font-weight: bold;
+  color: var(--text-color);
+}
+
+.header a {
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+.header a:hover,
+.header li button:hover,
+.header a:active,
+.header a.active {
+  color: var(--title-text);
+  padding-bottom: 4px;
+  border-bottom: 2px solid var(--title-text);
+}

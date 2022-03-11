@@ -1,1 +1,0 @@
-export const LIST_STATUS = ['todo', 'inprogress', 'done']
