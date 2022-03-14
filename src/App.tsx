@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import ToggleTheme from "./components/ToggleTheme/ToggleTheme";
 import { TaskContext } from "./task-context";
-import classes from "./App.module.css";
 import { Redirect, Route, Switch } from "react-router-dom";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import ListTaskPage from "./pages/ListTaskPage/ListTaskPage";
@@ -11,6 +10,9 @@ import UsersPage from "./pages/UsersPage/UsersPage";
 import { useSelector } from "react-redux";
 import { RootState } from "./store";
 import { selectLoggin } from "./store/authSlice";
+
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   const isAuthenticated = useSelector<RootState, boolean>(selectLoggin);
@@ -22,8 +24,9 @@ function App() {
 
   return (
     <React.Fragment>
+      <ToastContainer />
       <Header />
-      <div className={classes.app}>
+      <div>
         <ToggleTheme />
       </div>
       <main>

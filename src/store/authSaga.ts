@@ -4,6 +4,7 @@ import User from "../models/user";
 import userApi from "../service/user";
 import { authActions, LoginPayload, selectLoggin } from "./authSlice";
 import { push } from "connected-react-router";
+import { toastError } from "../utils/toast";
 
 function* login(action: LoginPayload) {
   const users: User[] = yield call(userApi.getAllUser);
@@ -21,14 +22,13 @@ function* login(action: LoginPayload) {
     yield put(authActions.loginSuccess());
     yield put(push("/tasks"));
   } else {
-    yield put(authActions.loginFail);
+    toastError("Sai thông tin gòi nha");
   }
 }
 
 function* watchLoginFlow() {
   while (true) {
     const isLoggedin: boolean = yield select(selectLoggin);
-    console.log("Login infor from persist", isLoggedin);
     if (!isLoggedin) {
       const action: PayloadAction<LoginPayload> = yield take(
         authActions.login.type

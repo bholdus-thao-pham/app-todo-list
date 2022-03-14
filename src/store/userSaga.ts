@@ -7,7 +7,6 @@ import * as Effects from "redux-saga/effects";
 const takeLatest: any = Effects.takeLatest;
 
 function* fetchAllUsers() {
-  console.log("USERSAGA....");
   const users: User[] = yield call(userApi.getAllUser);
   yield put(userActions.setListUser(users));
 }

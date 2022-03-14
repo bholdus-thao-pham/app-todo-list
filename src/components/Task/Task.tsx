@@ -33,7 +33,6 @@ const Task: React.FC<{ id: string }> = (props) => {
         <Link to={`/tasks/${task!.id}`}>
           <img src={btnEditSrc} alt="Edit" />
         </Link>
-        {/* <img onClick={openDetailModal} src={btnEditSrc} alt="Edit" /> </Link> */}
       </div>
     </li>
   );

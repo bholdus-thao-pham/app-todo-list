@@ -9,10 +9,9 @@ const UserList = React.memo(() => {
   const listUsers = useSelector<RootState, User[]>(selectAllUser);
   const dispatch = useDispatch<AppDispatch>();
   useEffect(() => {
-    console.log("App component is rendering...");
     dispatch(userActions.getAllUser());
   }, [dispatch]);
-  console.log("List user", listUsers);
+
   const tableData = () => {
     return listUsers.map((item) => (
       <tr key={item.id}>

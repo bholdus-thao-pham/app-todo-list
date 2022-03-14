@@ -22,9 +22,6 @@ const authSlice = createSlice({
     loginSuccess(state) {
       state.isAuthenticated = true;
     },
-    loginFail(state) {
-      state.isAuthenticated = false;
-    },
     logout(state) {
       state.isAuthenticated = false;
     },
